@@ -14,7 +14,7 @@ func LimitFloat(initialVal float64, limit int) (float64, error) {
 
 func StringsToFloats (lines []string, limit int) ([]float64, error) {
 	prices := make([]float64, len(lines))
-	for _, line := range lines {
+	for i, line := range lines {
 		initialVal, err := strconv.ParseFloat(line, 64)
 		if err != nil {
 			return nil, err
@@ -23,7 +23,7 @@ func StringsToFloats (lines []string, limit int) ([]float64, error) {
 		if err != nil {
 			return nil, err
 		}
-		prices = append(prices, val)
+		prices[i] = val
 	}
 	return prices, nil
 }
