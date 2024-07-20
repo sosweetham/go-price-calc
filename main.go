@@ -38,7 +38,11 @@ Please select an option:
 
 		for _, tax := range taxes {
 			priceJob := prices.NewTaxIncludedPriceJob(manager, tax)
-			priceJob.Process()
+			err := priceJob.Process()
+			if err != nil {
+				fmt.Println("Could not process the job.")
+				fmt.Println(err)
+			}
 		}
 	}
 }
