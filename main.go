@@ -5,6 +5,7 @@ import (
 
 	"kodski.com/price-calculator/cmdmanager"
 	"kodski.com/price-calculator/filemanager"
+	"kodski.com/price-calculator/iomanager"
 	"kodski.com/price-calculator/prices"
 )
 
@@ -24,7 +25,7 @@ Please select an option:
 		var option int
 		fmt.Scan(&option)
 
-		var manager prices.IOManager
+		var manager iomanager.IOManager
 
 		if option == 1 {
 			manager = cmdmanager.NewCMDManager()
