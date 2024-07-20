@@ -12,7 +12,9 @@ import (
 func main() {
 	for {
 		taxes := []float64{0, 0.07, 0.1, 0.15}
-	
+		doneChans := make([]chan bool, len(taxes))
+		errorChans := make([]chan error, len(taxes))
+
 		fmt.Println(`
 Welcome to Tax Included Price Calculator
 Press Enter after selecting an option (1 or 2)
@@ -39,7 +41,9 @@ Please select an option:
 
 		var iom iomanager.IOManager
 
-		for _, tax := range taxes {
+		for index, tax := range taxes {
+			doneChans[index] = make(chan bool)
+			errorChans[index] = make(chan error)
 
 			switch selectedOption {
 			case manual:
@@ -49,9 +53,14 @@ Please select an option:
 			}
 
 			priceJob := prices.NewTaxIncludedPriceJob(iom, tax)
-			err := priceJob.Process()
+			go priceJob.Process(doneChans[index], errorChans[index])
+		}
 
-			if err != nil {
+		for index := range taxes {
+			select {
+			case <-doneChans[index]:
+				fmt.Println("Job done")
+			case err := <-errorChans[index]:
 				fmt.Println(err)
 			}
 		}
