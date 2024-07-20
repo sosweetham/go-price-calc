@@ -22,20 +22,11 @@ func (job *TaxIncludedPriceJob) GetInputPrices() {
 		return
 	}
 
-	prices := make([]float64, len(lines))
+	prices, err := conversion.StringsToFloats(lines, 2)
 
-	for _, line := range lines {
-		initialVal, err := strconv.ParseFloat(line, 64)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		val, err := conversion.LimitFloat(initialVal, 2)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		prices = append(prices, val)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 
 	job.InputPrices = prices
