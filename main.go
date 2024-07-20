@@ -13,12 +13,12 @@ func main() {
 		taxes := []float64{0, 0.07, 0.1, 0.15}
 	
 		fmt.Println(`
-	Welcome to Tax Included Price Calculator
-	Tax Rates are: 0%, 7%, 10%, 15%
-	Press Enter after selecting an option (1 or 2)
-	Please select an option:
-	1. Enter your prices manually
-	2. Read prices from a file
+Welcome to Tax Included Price Calculator
+Tax Rates are: 0%, 7%, 10%, 15%
+Press Enter after selecting an option (1 or 2)
+Please select an option:
+1. Enter your prices manually
+2. Read prices from a file
 		`)
 		
 		var option int
