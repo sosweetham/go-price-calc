@@ -4,11 +4,15 @@ import (
 	"fmt"
 
 	"kodski.com/price-calculator/conversion"
-	"kodski.com/price-calculator/filemanager"
 )
 
+type IOManager interface {
+	ReadLines() ([]string, error)
+	WriteResult(data interface{}) error
+}
+
 type TaxIncludedPriceJob struct {
-	IOManager filemanager.FileManager `json:"-"`
+	IOManager IOManager `json:"-"`
 	TaxRate float64 `json:"tax_rate"`
 	InputPrices []float64 `json:"input_prices"`
 	TaxIncludedPrices map[string]string `json:"tax_included_prices"`
@@ -43,7 +47,7 @@ func (job *TaxIncludedPriceJob) Process() {
 	job.IOManager.WriteResult(job)
 }
 
-func NewTaxIncludedPriceJob(fm filemanager.FileManager, taxRate float64) *TaxIncludedPriceJob {
+func NewTaxIncludedPriceJob(fm IOManager, taxRate float64) *TaxIncludedPriceJob {
 	return &TaxIncludedPriceJob{
 		IOManager: fm,
 		InputPrices: []float64{10,20,30},
